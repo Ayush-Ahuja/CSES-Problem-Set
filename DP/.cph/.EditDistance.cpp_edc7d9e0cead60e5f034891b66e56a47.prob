@@ -1,0 +1,1 @@
+{"name":"Local: EditDistance","url":"c:\\Users\\AYUSH AHUJA\\Documents\\Programming\\CSES-Problem-Set\\DP\\EditDistance.cpp","tests":[{"id":1750059497192,"input":"LOVE\nMOVIE","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\AYUSH AHUJA\\Documents\\Programming\\CSES-Problem-Set\\DP\\EditDistance.cpp","group":"local","local":true}
