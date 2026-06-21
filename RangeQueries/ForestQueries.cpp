@@ -16,26 +16,25 @@ long long LCM(long long a,long long b){
 ll N = 3e5+7;
 ll mod = 998244353;
 ll mod2 = 1e9 + 7;
-unordered_map<vector<ll>, ll> mp;
-ll x;
-
-ll minRides(vector<ll>& weight, ll idx, vector<ll>& new_weight){
-    if (weight.size() == 1) return mp[weight] = 1;
-    if (mp.find(weight) != mp.end()) return mp[weight];
-    if (idx > weight.size()) 
-    vector<ll> new_weights;
-    
-}
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin >> n >> x;
-    vector<ll> weights(n);
-    LOOP(0, n){
-        cin >> weights[i];
+    ll n, q;
+    cin >> n >> q;
+    vector<vector<ll>> summ(n+1, vector<ll>(n+1));
+    LOOP(1, n+1){
+        LOOP_(1, n+1, j){
+            char c;
+            cin >> c;
+            if (c == '*') summ[i][j]++;
+            summ[i][j] += summ[i-1][j] + summ[i][j-1] - summ[i-1][j-1];
+        }
     }
-    cout << minRides(weights) << "\n";
+    while(q--){
+        ll x1, y1, x2, y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        cout << summ[x2][y2] - summ[x2][y1-1] - summ[x1-1][y2] + summ[x1-1][y1-1] << "\n";
+    }
     return 0;
 }

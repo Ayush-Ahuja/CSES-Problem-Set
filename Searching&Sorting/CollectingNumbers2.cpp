@@ -68,28 +68,43 @@ int main() {
   while(t--){
     ll n, m;
     cin >> n >> m;
-    vector<pair<ll, ll>> a(n);
-    unordered_map<ll, ll> mp;
-    vector<ll> seq(n+1);
-    LOOP(0, n){
-        cin >> a[i].first;
-        seq[i+1] = a[i].first;
-        mp[a[i].first] = i+1;
-        a[i].second = i;
+    vector<ll> a(n+2);
+    vector<ll> b(n+1);
+    a[0] = LLONG_MAX;
+    a[n+1] = LLONG_MAX;
+    LOOP(1, n+1){
+        ll x;
+        cin >> x;
+        b[i] = x;
+        a[x] = i;
     }
-    sort(all(a));
     ll ans = 0;
-    ll prev = n;
-    LOOP(0, n){
-        if (a[i].second < prev){
-            ans++;
-        }
-        prev = a[i].second;
+    LOOP(1, n+1){
+        if (a[i] < a[i-1]) ans++;
     }
     while(m--){
-        ll a, b;
-        cin >> a >> b;
-         
+        ll u, v;
+        cin >> u >> v;
+        if (u == v){
+            cout << ans << "\n";
+            continue;
+        }
+        ll num1 = b[u], num2 = b[v];
+        ll minn = min(num1, num2);
+        ll maxx = max(num1, num2);
+        ll diff = maxx - minn;
+        if (a[minn] < a[minn - 1]) ans--;
+        if (diff != 1 && a[minn + 1] < a[minn]) ans--;
+        if (a[maxx] < a[maxx - 1]) ans--;
+        if (a[maxx + 1] < a[maxx]) ans--;
+        a[num1] = v;
+        a[num2] = u;
+        swap(b[u], b[v]);
+        if (a[minn] < a[minn - 1]) ans++;
+        if (diff != 1 && a[minn + 1] < a[minn]) ans++;
+        if (a[maxx] < a[maxx - 1]) ans++;
+        if (a[maxx + 1] < a[maxx]) ans++;
+        cout << ans << "\n";
     }
   }    
   return 0;

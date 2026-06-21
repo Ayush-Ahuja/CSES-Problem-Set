@@ -63,6 +63,7 @@ int main(){
   }
   bool ans = true;
   vector<ll> parent(n+1, -1);
+  vector<bool> loop_path(n+1, false);
   d[1] = 0;
   LOOP_(0, 2*n, j){
     LOOP(1, n+1){
@@ -70,23 +71,28 @@ int main(){
         continue;
       }
       for (auto p : adj[i]){
-        if (d[p.first] > (d[i] + p.second)){
-          d[p.first] = d[i] + p.second;
-          parent[p.first] = i;
+        if (d[p.first] > (d[i] + p.second) || loop_path[i]){
+          if (d[p.first] > (d[i] + p.second)){
+            d[p.first] = d[i] + p.second;
+            parent[p.first] = i;
+            if (j >= n) loop_path[p.first] = true;
+          }
+          if (loop_path[i]) loop_path[p.first] = true;
         }
       }
     }
   }
-  set<ll> p;
-  for(int v = n; v != -1; v = parent[v]){
-    if(p.count(v)){
-      ans = false;
-      break;
-    }
-    else{
-      p.insert(v);
-    }
-  }
+  // set<ll> p;
+  // for(int v = n; v != -1; v = parent[v]){
+  //   if(p.count(v)){
+  //     ans = false;
+  //     break;
+  //   }
+  //   else{
+  //     p.insert(v);
+  //   }
+  // }
+  if (loop_path[n]) ans = false;
   if (ans){
     cout << -1*d[n] << "\n";
   }

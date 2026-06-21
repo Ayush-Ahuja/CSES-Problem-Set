@@ -45,24 +45,34 @@ int main() {
     vector<ll> a(n);
     ll total = 0;
     LOOP(0, n){
-        cin >> a[i];
-        total += a[i];
+      cin >> a[i];
+      total += a[i];
     }
-    total /= k;
-    vector<ll> num;
-    num.push_back(0);
-    ll curr = 0;
-    ll ans = 0;
-    LOOP(0, n){
-        curr += a[i];
-        auto it = upper_bound(all(num), curr - total);
-        if (it != num.begin()){
-            it--;
-            ans = max(ans, curr - *it);
+    ll l = a[n-1], r = total;
+    while (l != r){
+      ll mid = (l+r)/2;
+      ll kk = 0;
+      ll curr = 1e17;
+      bool f = false;
+      LOOP(0, n){
+        if (curr + a[i] <= mid){
+          curr += a[i];
         }
-        num.push_back(curr);
+        else {
+          if (a[i] > mid){
+            f = true;
+            break;
+          } 
+          curr = a[i];
+          kk++;
+        }
+      }
+      if (f) l = mid + 1;
+      else if (kk < k) r = mid-1;
+      else if (kk > k) l = mid + 1;
+      else r = mid;
     }
-    cout << ans << "\n";
+    cout << l << "\n";
   } 
   return 0;
 }
